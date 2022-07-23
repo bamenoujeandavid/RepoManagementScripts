@@ -18,9 +18,8 @@ git commit -m "$1"
 read -p $'Do you want to push on your current branch ? [Y/n]' VALIDATION
 
 if [ "$VALIDATION" == "y" ] || [ "$VALIDATION" == "Y" ] || [ -z "$VALIDATION" ]; then
-    echo "$(git status | head -n 1 | awk '{print $3}')"
-    #git push origin $BR_NAME
-    echo $'remote-branch: origin\nlocal-branch: '$BR_NAME''
+    git push origin $(git status | head -n 1 | awk '{print $3})
+    echo $'remote-branch: origin\nlocal-branch: `git status | head -n 1 | awk '{print $3}`'
 else 
     read -p $'On which branch do you want to push ?\n' BRANCH
     echo $'remote-branch: origin\nlocal-branch: '$BRANCH''
