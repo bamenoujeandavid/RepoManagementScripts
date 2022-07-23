@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 
-read -p $'Which files do you want to commit ?\n' FILES
+#-s means short (just try it)
+echo $'Change log:'
+git status -s
+echo $''
 
-echo $'You are sending the following files:'
-echo $FILES
+read -p $'Which files do you want to commit ?\n' FILES
 #Display each file on a newline
 #Autocomplete
-#Number of element we are sending
 
 git add $FILES
 git commit -m "$1"
