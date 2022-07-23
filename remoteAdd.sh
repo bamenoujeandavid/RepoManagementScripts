@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#-s means short (just try it)
+#-s means 'short' (just try it)
 echo $'Change log:'
 git status -s
 echo $''
@@ -10,7 +10,6 @@ BR_NAME= git status | head -n 1 | awk '{print $3}'
 echo $''
 
 read -p $'Which files do you want to commit ?\n' FILES
-#Autocomplete
 
 git add $FILES
 git commit -m "$1"
