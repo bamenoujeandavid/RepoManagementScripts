@@ -6,7 +6,7 @@ git status -s
 echo $''
 
 echo -n "On branch: "
-BR_NAME = "$(git status | head -n 1 | awk '{print $3}')"
+BR_NAME = $(git status | head -n 1 | awk '{print $3}')
 echo $''
 
 read -p $'Which files do you want to commit ?\n' FILES
