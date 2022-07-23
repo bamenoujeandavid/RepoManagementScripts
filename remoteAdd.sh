@@ -15,7 +15,7 @@ read -p $'Which files do you want to commit ?\n' FILES
 git add $FILES
 git commit -m "$1"
 
-read -p $'Do you want to push on your current branch ? [Y/n]' VALIDATION
+read -p $'Do you want to push on your current branch ? [Y/n] ' VALIDATION
 
 if [ "$VALIDATION" == "y" ] || [ "$VALIDATION" == "Y" ] || [ -z "$VALIDATION" ]; then
     git push origin `git status | head -n 1 | awk '{print $3}'`
