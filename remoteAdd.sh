@@ -21,6 +21,7 @@ if [ "$VALIDATION" == "y" ] || [ "$VALIDATION" == "Y" ] || [ -z "$VALIDATION" ];
     git push origin `git status | head -n 1 | awk '{print $3}'`
     echo $'remote-branch: origin'
     echo $"local-branch: $(git status | head -n 1 | awk '{print $3}')"
+    echo $''
 else 
     read -p $'On which branch do you want to push ?\n' BRANCH
     echo $'remote-branch: origin\nlocal-branch: '$BRANCH''
