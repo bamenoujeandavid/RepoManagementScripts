@@ -12,5 +12,8 @@ git add $FILES
 git commit -m "$1"
 
 read -p $'On which branch do you want to push ?\n' BRANCH
-echo 'remote-branch: origin\nlocal-branch:$BRANCH\n'
+echo $'remote-branch: origin\nlocal-branch: '$BRANCH''
 git push origin $BRANCH
+
+echo $'The actual state of your repository:'
+git ls-files
