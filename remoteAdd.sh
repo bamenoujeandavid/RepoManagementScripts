@@ -14,8 +14,6 @@ function displayCurrentBranch() {
 
 ARGS=$#
 COMMIT_MESSAGE=$1
-read -p $'Which files do you want to commit ?\n' FILES
-git add $FILES
 
 function checkBranch() {
     read -p $'Do you want to push on your current branch ? [Y/n] ' VALIDATION
@@ -32,13 +30,27 @@ function checkBranch() {
 }
 
 function commitFiles() {
+    read -p $'Which files do you want to commit ?\n' FILES
+    git add $FILES
     if [[ $ARGS -eq 1 ]]; then
         git commit -m "$COMMIT_MESSAGE"
         checkBranch
     fi
 }
 
-commitFiles
+function remoteRepositoryStatus() {
+    echo -e "\e[4m$(tput setaf 1)The actual state of your repository:\e[0m"
+    git ls-files
+}
+
+function main() {
+    currentStatusOfLocalRepository
+    displayCurrentBranch
+    commitFiles
+    remoteRepositoryStatus
+}
+
+main
 # #Co-author ? You enter your commit : git commit -m "$1" ||
 # #Check if there is an argument after the script, if there is no arg, you enter your commit. else we commit with $1
 # git commit -m "$1"
@@ -56,5 +68,3 @@ commitFiles
 #     git push origin $BRANCH
 # fi
 
-# echo $'The actual state of your repository:'
-# git ls-files
