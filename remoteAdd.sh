@@ -51,20 +51,4 @@ function main() {
 }
 
 main
-# #Co-author ? You enter your commit : git commit -m "$1" ||
-# #Check if there is an argument after the script, if there is no arg, you enter your commit. else we commit with $1
-# git commit -m "$1"
-
-# read -p $'Do you want to push on your current branch ? [Y/n] ' VALIDATION
-
-# if [ "$VALIDATION" == "y" ] || [ "$VALIDATION" == "Y" ] || [ -z "$VALIDATION" ]; then
-#     git push origin `git status | head -n 1 | awk '{print $3}'`
-#     echo $'remote-branch: origin'
-#     echo $"local-branch: $(git status | head -n 1 | awk '{print $3}')"
-#     echo $''
-# else 
-#     read -p $'On which branch do you want to push ?\n' BRANCH
-#     echo $'remote-branch: origin\nlocal-branch: '$BRANCH''
-#     git push origin $BRANCH
-# fi
 
