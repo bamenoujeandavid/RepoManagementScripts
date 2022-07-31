@@ -1,31 +1,60 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-#-s means 'short' (just try it)
-echo $'Change log:'
-git status -s
-echo $''
-
-echo -n "On branch: "
-BR_NAME= git status | head -n 1 | awk '{print $3}'
-echo $''
-
-read -p $'Which files do you want to commit ?\n' FILES
-
-git add $FILES
-git commit -m "$1"
-
-read -p $'Do you want to push on your current branch ? [Y/n] ' VALIDATION
-
-if [ "$VALIDATION" == "y" ] || [ "$VALIDATION" == "Y" ] || [ -z "$VALIDATION" ]; then
-    git push origin `git status | head -n 1 | awk '{print $3}'`
-    echo $'remote-branch: origin'
-    echo $"local-branch: $(git status | head -n 1 | awk '{print $3}')"
+function currentStatusOfLocalRepository() {
+    echo -e "\e[4m$(tput setaf 1)Change log:\e[0m"
+    git status -s
     echo $''
-else 
-    read -p $'On which branch do you want to push ?\n' BRANCH
-    echo $'remote-branch: origin\nlocal-branch: '$BRANCH''
-    git push origin $BRANCH
-fi
+}
 
-echo $'The actual state of your repository:'
-git ls-files
+function displayCurrentBranch() {
+    echo -ne "\e[4m$(tput setaf 1)Current branch:\e[0m "
+    git status | head -n 1 | awk '{print $3}'
+    echo $''
+}
+
+ARGS=$#
+COMMIT_MESSAGE=$1
+read -p $'Which files do you want to commit ?\n' FILES
+git add $FILES
+
+function checkBranch() {
+    read -p $'Do you want to push on your current branch ? [Y/n] ' VALIDATION
+    if [ "$VALIDATION" == "y" ] || [ "$VALIDATION" == "Y" ] || [ -z "$VALIDATION" ]; then
+        git push origin `git status | head -n 1 | awk '{print $3}'`
+        echo $'remote-branch: origin'
+        echo $"local-branch: $(git status | head -n 1 | awk '{print $3}')"
+        echo $''
+    else 
+        read -p $'On which branch do you want to push ?\n' BRANCH
+        echo $'remote-branch: origin\nlocal-branch: '$BRANCH''
+        git push origin $BRANCH
+    fi
+}
+
+function commitFiles() {
+    if [[ $ARGS -eq 1 ]]; then
+        git commit -m "$COMMIT_MESSAGE"
+        checkBranch
+    fi
+}
+
+commitFiles
+# #Co-author ? You enter your commit : git commit -m "$1" ||
+# #Check if there is an argument after the script, if there is no arg, you enter your commit. else we commit with $1
+# git commit -m "$1"
+
+# read -p $'Do you want to push on your current branch ? [Y/n] ' VALIDATION
+
+# if [ "$VALIDATION" == "y" ] || [ "$VALIDATION" == "Y" ] || [ -z "$VALIDATION" ]; then
+#     git push origin `git status | head -n 1 | awk '{print $3}'`
+#     echo $'remote-branch: origin'
+#     echo $"local-branch: $(git status | head -n 1 | awk '{print $3}')"
+#     echo $''
+# else 
+#     read -p $'On which branch do you want to push ?\n' BRANCH
+#     echo $'remote-branch: origin\nlocal-branch: '$BRANCH''
+#     git push origin $BRANCH
+# fi
+
+# echo $'The actual state of your repository:'
+# git ls-files
