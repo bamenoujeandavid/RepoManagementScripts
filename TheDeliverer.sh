@@ -1,5 +1,11 @@
 #!/bin/bash
 
+
+if [ $# -ne 1 ]; then
+    echo -e $'Invalid operation:\n\e[4mUsage\e[0m: ./TheDeliverer.sh <conventional_commit_message>'
+    exit 0
+fi
+
 function currentStatusOfLocalRepository() {
     echo -e "\e[4m$(tput setaf 1)Change log:\e[0m"
     git status -s
@@ -35,12 +41,6 @@ function commitFiles() {
     if [[ $ARGS -eq 1 ]]; then
         git commit -m "$COMMIT_MESSAGE"
         checkBranch
-    elif [[ $ARGS -eq 0 ]]; then
-        read -p $'Enter the commit message\n' C_MESSAGE
-        read -p $'Co-authored by: ' CO_AUTHOR
-        git commit -m "$C_MESSAGE$(echo "")$(echo "")Co-authored-by: $CO_AUTHOR"
-    else
-        echo $'Invalid operation'
     fi
 }
 
@@ -54,6 +54,7 @@ function main() {
     displayCurrentBranch
     commitFiles
     remoteRepositoryStatus
+    exit 1
 }
 
 main
