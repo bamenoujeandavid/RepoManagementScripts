@@ -30,7 +30,7 @@ function checkBranch() {
         echo $''
     else 
         read -p $'On which branch do you want to push ?\n' BRANCH
-        echo $'$(tput bold)remote-branch:$(tput sgr0) origin\n$(tput bold)local-branch: $(tput sgr0)'$BRANCH''
+        echo -e $'\033[1mremote-branch: \033[0morigin\n\033[1mlocal-branch: \033[0m'$BRANCH''
         git push origin $BRANCH
     fi
 }
