@@ -7,13 +7,13 @@ if [ $# -ne 1 ]; then
 fi
 
 function currentStatusOfLocalRepository() {
-    echo "$(tput bold)Untracked/Modified files:"
+    echo "$(tput bold)Untracked/Modified files:$(tput sgr0)"
     git status -s
     echo $''
 }
 
 function displayCurrentBranch() {
-    echo -n "$(tput bold)Current branch: "
+    echo -n "$(tput bold)Current branch: $(tput sgr0)"
     git status | head -n 1 | awk '{print $3}'
     echo $''
 }
@@ -25,12 +25,12 @@ function checkBranch() {
     read -p $'Do you want to push on your current branch ? [Y/n] ' VALIDATION
     if [ "$VALIDATION" == "y" ] || [ "$VALIDATION" == "Y" ] || [ -z "$VALIDATION" ]; then
         git push origin `git status | head -n 1 | awk '{print $3}'`
-        echo "$(tput bold)remote-branch: origin"
-        echo $"$(tput bold)local-branch: $(git status | head -n 1 | awk '{print $3}')"
+        echo "$(tput bold)remote-branch:$(tput sgr0) origin"
+        echo $"$(tput bold)local-branch:$(tput sgr0) $(git status | head -n 1 | awk '{print $3}')"
         echo $''
     else 
         read -p $'On which branch do you want to push ?\n' BRANCH
-        echo $'$(tput bold)remote-branch: origin\n$(tput bold)local-branch: '$BRANCH''
+        echo $'$(tput bold)remote-branch:$(tput sgr0) origin\n$(tput bold)local-branch: $(tput sgr0)'$BRANCH''
         git push origin $BRANCH
     fi
 }
