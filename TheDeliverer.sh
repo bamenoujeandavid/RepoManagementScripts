@@ -35,6 +35,12 @@ function commitFiles() {
     if [[ $ARGS -eq 1 ]]; then
         git commit -m "$COMMIT_MESSAGE"
         checkBranch
+    elif [[ $ARGS -eq 0 ]]; then
+        read -p $'Enter the commit message\n' C_MESSAGE
+        read -p $'Co-authored by: ' CO_AUTHOR
+        git commit -m "$C_MESSAGE$(echo "")$(echo "")Co-authored-by: $CO_AUTHOR"
+    else
+        echo $'Invalid operation'
     fi
 }
 
