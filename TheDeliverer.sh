@@ -32,6 +32,7 @@ function checkBranch() {
         read -p $'On which branch do you want to push ?\n' BRANCH
         echo -e $'\033[1mremote-branch: \033[0morigin\n\033[1mlocal-branch: \033[0m'$BRANCH''
         git push origin $BRANCH
+        echo $''
     fi
 }
 
@@ -49,7 +50,7 @@ function commitFiles() {
 }
 
 function remoteRepositoryStatus() {
-    echo -e "\e[4m$(tput setaf 1)The actual state of your repository:\e[0m"
+    echo -e "\033[1mThe actual state of your repository:\033[0m"
     git ls-files
 }
 
