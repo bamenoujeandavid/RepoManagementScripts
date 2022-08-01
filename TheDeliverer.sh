@@ -7,7 +7,7 @@ if [ $# -ne 1 ]; then
 fi
 
 function currentStatusOfLocalRepository() {
-    echo -e "\e[4m$(tput setaf 1)Change log:\e[0m"
+    echo -e "\e[4m$(tput setaf 1)Untracked files:\e[0m"
     git status -s
     echo $''
 }
@@ -38,6 +38,10 @@ function checkBranch() {
 function commitFiles() {
     read -p $'Which files do you want to commit ?\n' FILES
     git add $FILES
+    echo $''
+    echo -e "$(tput bold)Status:"
+    git status -s
+
     if [[ $ARGS -eq 1 ]]; then
         git commit -m "$COMMIT_MESSAGE"
         checkBranch
