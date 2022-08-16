@@ -76,7 +76,19 @@ addUnitTestRule() {
     echo -ne $'\tgcovr --exclude tests/ --branches\n\n' >> $M_PATH
 }
 
-function main() {
+createGitIgnore() {
+    touch .gitignore
+    mv .gitignore $DESTINATION_PATH
+    local GIT_IGNORE_PATH=$DESTINATION_PATH/.gitignore
+
+    echo $'#Scripts' >> $GIT_IGNORE_PATH
+    echo $'InitRepo.sh/' >> $GIT_IGNORE_PATH
+    echo $'TheDeliverer.sh/\n' >> $GIT_IGNORE_PATH
+    echo $'#vscode folder' >> $GIT_IGNORE_PATH
+    echo $'.vscode/*' >> $GIT_IGNORE_PATH
+}
+
+function makefileGenesis() {
     Header
     Variables
     commonRules
@@ -85,7 +97,11 @@ function main() {
     fi
     echo -ne $'.PHONY:\tclean fclean all re' >> $M_PATH
     echo $'Makefile created...'
-    exit 1
+}
+
+function main() {
+    makefileGenesis
+    createGitIgnore
 }
 
 main
