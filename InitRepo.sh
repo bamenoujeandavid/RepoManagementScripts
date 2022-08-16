@@ -8,58 +8,84 @@ fi
 #Import all your functions and default unit_testing functions
 CURRENT_USER=$USER
 LIB="/home/$CURRENT_USER/Epitech-lib"
+UNIT_TEST_LIB_PATH="/home/$CURRENT_USER/tests"
+DESTINATION_PATH=$1
 
 cp $LIB $1 -r
-
-#creer alias pour copier directement le InitRepo et le Deliverer
-#alias script='mv ~/RepoManagementScript/InitRepo.sh ~/RepoManagementScript/TheDeliverer.sh ./'
-
-
-#Creer makefile par defaut
 
 #All Makefile variables:
 #Makefile path
 M_PATH=$1/Makefile
 
 #Binary Name
-NAME=$2
+BINARY_NAME=$2
 
 #Creer le fichier Makefile
 touch Makefile
-mv Makefile $1
-echo $'Makefile created...'
+mv Makefile $DESTINATION_PATH
 
-#Header Epitech
-echo $'##' >> $M_PATH
-echo $'## EPITECH PROJECT, 2022' >> $M_PATH
-echo $'## Makefile C' >> $M_PATH
-echo $'## File description:' >> $M_PATH
-echo $'## GNUmakefile' >> $M_PATH
-echo $'##' >> $M_PATH
+read -p "$(tput bold)Do you want to import your unit test folder (should be located at /Home/User) ? [Y/n]$(tput sgr0) " VALIDATION
 
-#SRC - OBJ - NAME - files
+Header() {
+    echo $'Loading Epitech header...'
+    echo $'##' >> $M_PATH
+    echo $'## EPITECH PROJECT, 2022' >> $M_PATH
+    echo $'## Makefile C' >> $M_PATH
+    echo $'## File description:' >> $M_PATH
+    echo $'## GNUmakefile' >> $M_PATH
+    echo $'##' >> $M_PATH
+}
 
-echo -ne $'\nSRC\t=\t$(shell find . -type f -name "*.c")\n\n' >> $M_PATH
-echo -ne $'OBJ\t=\t$(SRC:.c=.o)\n\n' >> $M_PATH
-echo -ne "NAME\t=\tproject_name\n\n" >> $M_PATH
+Variables() {
+    echo $'Creating common variables...'
+    echo -ne $'\nSRC\t=\t$(shell find . -type f -name "*.c")\n\n' >> $M_PATH
+    if [ "$VALIDATION" == "y" ] || [ "$VALIDATION" == "Y" ] || [ -z "$VALIDATION" ]; then
+        echo -ne $'Importing lib and creating unit test rule...\n'
+        cp $UNIT_TEST_LIB_PATH $DESTINATION_PATH -r
+        echo -ne $'TEST_SRC\t=\t$(shell find . -type f -name "tests/tests_*")\n\n' >> $M_PATH
+    fi
+    echo -ne $'OBJ\t=\t$(SRC:.c=.o)\n\n' >> $M_PATH
+    echo $'Retrieve binary name...'
+    sleep 1
+    echo -ne "NAME\t=\t$BINARY_NAME\n\n" >> $M_PATH
+}
 
-#rule 'all'
-echo -ne $'all:\t$(NAME)\n\n' >> $M_PATH
+commonRules() {
+    echo -ne $'all:\t$(NAME)\n\n' >> $M_PATH
 
-#valgrind compilation:
-echo -ne $'%.o:\t%.c\n\tgcc -c $< -o $@ -g3\n\n' >> $M_PATH
+    #valgrind compilation:
+    echo -ne $'%.o:\t%.c\n\tgcc -c $< -o $@ -g3\n\n' >> $M_PATH
 
-echo -ne $'$(NAME):\t$(OBJ)\n\tgcc -o $(NAME) $(OBJ) -g3\n\n' >> $M_PATH
+    echo -ne $'$(NAME):\t$(OBJ)\n\tgcc -o $(NAME) $(OBJ) -g3\n\n' >> $M_PATH
 
-#clean rule:
-echo -ne $'clean:\n\t-rm -f $(OBJ)\n\n' >> $M_PATH
+    #clean rule:
+    echo -ne $'clean:\n\t-rm -f $(OBJ)\n\n' >> $M_PATH
 
-#fclean rule:
-echo -ne $'fclean:\tclean\n\t-rm -f $(NAME)\n\t-rm -f *~\n\t-rm -f *#\n\t-rm -f vgcore.*\n\n' >> $M_PATH
+    #fclean rule:
+    echo -ne $'fclean:\tclean\n\t-rm -f $(NAME)\n\t-rm -f *~\n\t-rm -f *#\n\t-rm -f vgcore.*\n\n' >> $M_PATH
 
-#re rule:
-echo -ne $'re:\tfclean all\n\n' >> $M_PATH
+    #re rule:
+    echo -ne $'re:\tfclean all\n\n' >> $M_PATH
+}
 
-#unit_test rule
-#PHONY
-echo -ne $'.PHONY:\tclean fclean all re\n\n' >> $M_PATH
+addUnitTestRule() {
+    echo $'Adding unit test rule...'
+    echo -ne $'tests_run:\t$(TEST_SRC)\n\tgcc -o $(TEST_NAME) $(TEST_SRC) --coverage -lcriterion\n' >> $M_PATH
+    echo -ne $'\t./$(TEST_NAME)\n' >> $M_PATH
+    echo -ne $'\tgcovr --exclude tests/\n' >> $M_PATH
+    echo -ne $'\tgcovr --exclude tests/ --branches\n\n' >> $M_PATH
+}
+
+function main() {
+    Header
+    Variables
+    commonRules
+    if [ "$VALIDATION" == "y" ] || [ "$VALIDATION" == "Y" ] || [ -z "$VALIDATION" ]; then
+        addUnitTestRule
+    fi
+    echo -ne $'.PHONY:\tclean fclean all re' >> $M_PATH
+    echo $'Makefile created...'
+    exit 1
+}
+
+main
