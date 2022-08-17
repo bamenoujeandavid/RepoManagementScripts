@@ -5,7 +5,7 @@ if [ $# -ne 1 ]; then
     exit 0
 fi
 
-#Import all your functions and default unit_testing functions
+#Global variables
 CURRENT_USER=$USER
 LIB="/home/$CURRENT_USER/Epitech-lib"
 UNIT_TEST_LIB_PATH="/home/$CURRENT_USER/tests"
@@ -13,18 +13,15 @@ DESTINATION_PATH=$1
 
 cp $LIB $1 -r
 
-#All Makefile variables:
 #Makefile path
 M_PATH=$1/Makefile
-
-#Binary Name
-BINARY_NAME=$2
 
 #Creer le fichier Makefile
 touch Makefile
 mv Makefile $DESTINATION_PATH
 
 read -p "$(tput bold)Do you want to import your unit test folder (should be located at /Home/User) ? [Y/n]$(tput sgr0) " VALIDATION
+read -p "$(tput bold)Binary name: $(tput sgr0)" BINARY_NAME
 
 Header() {
     echo $'Loading Epitech header...'
@@ -79,13 +76,14 @@ addUnitTestRule() {
 createGitIgnore() {
     touch .gitignore
     mv .gitignore $DESTINATION_PATH
-    local GIT_IGNORE_PATH=$DESTINATION_PATH/.gitignore
+    local GIT_IGNORE_FILE_PATH=$DESTINATION_PATH/.gitignore
 
-    echo $'#Scripts' >> $GIT_IGNORE_PATH
-    echo $'InitRepo.sh/' >> $GIT_IGNORE_PATH
-    echo $'TheDeliverer.sh/\n' >> $GIT_IGNORE_PATH
-    echo $'#vscode folder' >> $GIT_IGNORE_PATH
-    echo $'.vscode/*' >> $GIT_IGNORE_PATH
+    echo $'#Scripts' >> $GIT_IGNORE_FILE_PATH
+    echo $'InitRepo.sh/' >> $GIT_IGNORE_FILE_PATH
+    echo $'TheDeliverer.sh/\n' >> $GIT_IGNORE_FILE_PATH
+    echo $'#vscode folder' >> $GIT_IGNORE_FILE_PATH
+    echo $'.vscode/*' >> $GIT_IGNORE_FILE_PATH
+    echo $'gitignore added...'
 }
 
 function makefileGenesis() {
