@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ $# -ne 1 ]; then
-    echo -e $'Invalid operation:\n\e[4mUsage\e[0m: ./ImportLib.sh <destination_folder>'
+    echo -e $'Invalid operation:\n\e[4mUsage\e[0m: ./InitRepo.sh <destination_folder>'
     exit 0
 fi
 
