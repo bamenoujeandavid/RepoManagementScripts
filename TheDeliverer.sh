@@ -25,12 +25,10 @@ function checkBranch() {
     read -p $'Do you want to push on your current branch ? [Y/n] ' VALIDATION
     if [ "$VALIDATION" == "y" ] || [ "$VALIDATION" == "Y" ] || [ -z "$VALIDATION" ]; then
         git push origin `git status | head -n 1 | awk '{print $3}'`
-        echo "$(tput bold)remote-branch:$(tput sgr0) origin"
-        echo $"$(tput bold)local-branch:$(tput sgr0) $(git status | head -n 1 | awk '{print $3}')"
         echo $''
-    else 
+    else
         read -p $'On which branch do you want to push ?\n' BRANCH
-        echo -e $'\033[1mremote-branch: \033[0morigin\n\033[1mlocal-branch: \033[0m'$BRANCH''
+        echo -e $'\033[1mremote-branch: \033[0m'$BRANCH''
         git push origin $BRANCH
         echo $''
     fi
