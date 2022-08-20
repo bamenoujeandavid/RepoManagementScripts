@@ -38,9 +38,7 @@ Aman MENDA: aman.menda@epitech.eu
 Version 3, 29 June 2007
 
 ## Features
-<div>
-    <input type="checkbox" checked/> Push to a remote branch of your choice<br>
-    <input type="checkbox" checked/> Import your library<br> 
-    <input type="checkbox" onclick="return false;"/> Generate a Makefile at the specified destination<br> 
-    <input type="checkbox" onclick="return false;"/> Co-authored commit functionality<br> 
-</div>
+- [x] Push to a remote branch of your choice
+- [x] Import your library
+- [x] Generate a Makefile at the specified destination
+- [ ] Co-authored commit functionality
