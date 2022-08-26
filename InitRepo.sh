@@ -18,7 +18,9 @@ M_PATH=$1/Makefile
 
 #Creer le fichier Makefile
 touch Makefile
-mv Makefile $DESTINATION_PATH
+if [ "$DESTINATION_PATH" != "./" ]; then
+    mv Makefile $DESTINATION_PATH
+fi
 
 read -p "$(tput bold)Do you want to import your unit test folder (should be located at /Home/User) ? [Y/n]$(tput sgr0) " VALIDATION
 read -p "$(tput bold)Binary name: $(tput sgr0)" BINARY_NAME
@@ -75,7 +77,9 @@ addUnitTestRule() {
 
 createGitIgnore() {
     touch .gitignore
-    mv .gitignore $DESTINATION_PATH
+    if [ "$DESTINATION_PATH" != "./" ]; then
+        mv .gitignore $DESTINATION_PATH
+    fi
     local GIT_IGNORE_FILE_PATH=$DESTINATION_PATH/.gitignore
 
     echo $'#Scripts' >> $GIT_IGNORE_FILE_PATH
