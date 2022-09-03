@@ -90,6 +90,19 @@ createGitIgnore() {
     echo $'gitignore added...'
 }
 
+gitignoreFileConfig() {
+    GIT_IGNORE_FILE_PATH=$(echo $DESTINATION_PATH/.gitignore)
+    if [ ! -e $GIT_IGNORE_FILE_PATH ]; then
+    touch $GIT_IGNORE_FILE_PATH
+    fi
+    echo '*.sh' >> $GIT_IGNORE_FILE_PATH
+    echo '*.o' >> $GIT_IGNORE_FILE_PATH
+    echo '~*' >> $GIT_IGNORE_FILE_PATH
+    echo $'#Scripts' >> $GIT_IGNORE_FILE_PATH
+    echo $'#vscode folder' >> $GIT_IGNORE_FILE_PATH
+    echo $'.vscode/*' >> $GIT_IGNORE_FILE_PATH
+}
+
 function makefileGenesis() {
     Header
     Variables
